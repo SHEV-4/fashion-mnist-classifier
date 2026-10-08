@@ -1,95 +1,95 @@
-# Fashion MNIST: класифікація одягу (CNN та VGG16) зі Streamlit-застосунком
+# Fashion MNIST: Clothing Classification (CNN and VGG16) with a Streamlit App
 
-Навчальний проєкт з комп'ютерного зору: дві нейромережі для розпізнавання предметів одягу з датасету **Fashion MNIST** та вебзастосунок на **Streamlit**, у якому можна завантажити власне зображення, отримати передбачений клас з ймовірностями та переглянути графіки навчання кожної моделі.
+A computer vision learning project: two neural networks for recognizing clothing items from the **Fashion MNIST** dataset, and a **Streamlit** web app where you can upload your own image, get the predicted class with probabilities, and view the training charts of each model.
 
-## Можливості
+## Features
 
-- Вибір моделі: **згорткова мережа (CNN)** або **VGG16**.
-- Завантаження власного зображення (`jpg`, `jpeg`, `png`) і класифікація одним кліком.
-- Виведення передбаченого класу та ймовірностей для всіх 10 класів.
-- Графіки **функції втрат** і **точності** (навчальна та валідаційна вибірки) для обох моделей.
+- Model selection: **convolutional network (CNN)** or **VGG16**.
+- Upload your own image (`jpg`, `jpeg`, `png`) and classify it with one click.
+- Display of the predicted class and the probabilities for all 10 classes.
+- **Loss** and **accuracy** charts (training and validation sets) for both models.
 
-## Датасет
+## Dataset
 
-[Fashion MNIST](https://github.com/zalandoresearch/fashion-mnist): 70 000 чорно-білих зображень 28×28 пікселів, 10 класів:
+[Fashion MNIST](https://github.com/zalandoresearch/fashion-mnist): 70,000 black-and-white images of 28×28 pixels, 10 classes:
 
 `T-shirt/top`, `Trouser`, `Pullover`, `Dress`, `Coat`, `Sandal`, `Shirt`, `Sneaker`, `Bag`, `Ankle boot`.
 
-## Моделі
+## Models
 
-| Модель | Вхід | Архітектура |
+| Model | Input | Architecture |
 |---|---|---|
-| **CNN** (`fashion_mnist_model.keras`) | 28×28, відтінки сірого | 3 × `Conv2D` (32, 64, 64 фільтри, 3×3, ReLU), 2 × `MaxPooling2D`, `Dropout(0.2)` після кожного згорткового блоку, `Flatten`, `Dense(64)`, `Dense(10, softmax)` |
-| **VGG16** (`vgg16_fashion_mnist_model.keras`) | 32×32, RGB | база VGG16, `Flatten`, `Dense(256)`, `Dropout(0.3)`, `Dense(10, softmax)` |
+| **CNN** (`fashion_mnist_model.keras`) | 28×28, grayscale | 3 × `Conv2D` (32, 64, 64 filters, 3×3, ReLU), 2 × `MaxPooling2D`, `Dropout(0.2)` after each convolutional block, `Flatten`, `Dense(64)`, `Dense(10, softmax)` |
+| **VGG16** (`vgg16_fashion_mnist_model.keras`) | 32×32, RGB | VGG16 base, `Flatten`, `Dense(256)`, `Dropout(0.3)`, `Dense(10, softmax)` |
 
-Під час навчання використовувалося автоматичне зменшення learning rate (приблизно від `1e-3` до `1e-6`).
+Automatic learning rate reduction was used during training (from roughly `1e-3` to `1e-6`).
 
-## Результати
+## Results
 
-Підсумок останньої епохи за збереженою історією навчання:
+Summary of the last epoch based on the saved training history:
 
-| Модель | Епох | Точність (навчання) | Точність (валідація) | Loss (валідація) |
+| Model | Epochs | Accuracy (training) | Accuracy (validation) | Loss (validation) |
 |---|---|---|---|---|
-| CNN | 52 | 94,4 % | 92,6 % | 0,209 |
-| VGG16 | 34 | 92,0 % | 88,3 % | 0,334 |
+| CNN | 52 | 94.4% | 92.6% | 0.209 |
+| VGG16 | 34 | 92.0% | 88.3% | 0.334 |
 
-Історії навчання лежать у файлах `history_model_fashion.json` (CNN) та `history_conv.json` (VGG16).
+The training histories are in the files `history_model_fashion.json` (CNN) and `history_conv.json` (VGG16).
 
-## Структура репозиторію
+## Repository Structure
 
 ```
 .
-├── app.py                           # Streamlit-застосунок
-├── fashion_mnist_model.keras        # навчена CNN
-├── vgg16_fashion_mnist_model.keras  # навчена модель на базі VGG16
-├── history_model_fashion.json       # історія навчання CNN
-├── history_conv.json                # історія навчання VGG16
+├── app.py                           # Streamlit app
+├── fashion_mnist_model.keras        # trained CNN
+├── vgg16_fashion_mnist_model.keras  # trained VGG16-based model
+├── history_model_fashion.json       # CNN training history
+├── history_conv.json                # VGG16 training history
 └── README.md
 ```
 
-## Запуск
+## Running
 
-1. Клонуй репозиторій:
+1. Clone the repository:
 
    ```bash
-   git clone https://github.com/SHEV-4/<назва-репозиторію>.git
-   cd <назва-репозиторію>
+   git clone https://github.com/SHEV-4/fashion-mnist-classifier.git
+   cd <repository-name>
    ```
 
-2. (Рекомендовано) створи віртуальне середовище:
+2. (Recommended) create a virtual environment:
 
    ```bash
    python -m venv venv
    source venv/bin/activate      # Windows: venv\Scripts\activate
    ```
 
-3. Встанови залежності (моделі збережено у Keras 3):
+3. Install the dependencies (the models were saved with Keras 3):
 
    ```bash
    pip install streamlit tensorflow matplotlib pandas streamlit-option-menu pillow numpy
    ```
 
-4. Запусти застосунок:
+4. Start the app:
 
    ```bash
    streamlit run app.py
    ```
 
-   Застосунок відкриється в браузері.
+   The app will open in your browser.
 
-## Як користуватися
+## How to Use
 
-1. Обери модель у верхньому меню: **VGG 16** або **Згорткова**.
-2. У бічній панелі обери графік: **Функції втрат** або **Точність**.
-3. Завантаж зображення через **Виберіть зображення...** і натисни **Протестувати**.
-4. Отримай передбачений клас та ймовірності для всіх класів.
+1. Choose a model in the top menu: **VGG 16** or **Convolutional**.
+2. In the sidebar, choose a chart: **Loss functions** or **Accuracy**.
+3. Upload an image via **Choose an image...** and click **Test**.
+4. Get the predicted class and the probabilities for all classes.
 
-> **Порада.** Fashion MNIST містить предмети одягу на темному фоні. Найкращий результат дають зображення з одним предметом на однотонному фоні, без зайвих деталей.
+> **Tip.** Fashion MNIST contains clothing items on a dark background. The best results come from images with a single item on a plain background and no extra details.
 
-## Технології
+## Technologies
 
 Python, TensorFlow / Keras, Streamlit, streamlit-option-menu, NumPy, Pandas, Matplotlib, Pillow.
 
-## Автор
+## Author
 
 [SHEV-4](https://github.com/SHEV-4)
